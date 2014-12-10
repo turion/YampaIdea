@@ -26,11 +26,11 @@ data SFA a b c where
 	arr :: Animator a => b -> c -> SFA a b c -- this doesn't compile... not sure what I'm doing wrong
 	>>> :: Animator a => SFA a b c -> SFA a c d -> SFA a b d -- Can only trivially combine SFs with the same animator!
 
-
 --Given an explicit way of combining animators, we can plug SFs with different animators together:
 plug :: (Animator a, Animator b, Animator c) => (a -> b -> c) -> SFA a d e -> SFA b e f -> SFA c d f
 
 --Data sources should just be signal functions that produce "stuff out of nothing". The information on how to do the IO should be in the animator
-type Animator a => DataSource a b = SFA a () b
+type DataSource a b = SFA a () b
+type DataSink a b = SFA a b ()
 
 reactimate :: Animator a => SFA a () () -> IO ()
